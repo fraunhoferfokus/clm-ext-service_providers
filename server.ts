@@ -39,6 +39,7 @@ import TaxonomyDAO from './src/models/Taxonomy/TaxonomyDAO'
 const basePath = process.env.BASE_PATH || '/services'
 const app = express()
 const PORT = process.env.PORT
+console.log(basePath)
 const ECLUDED_PATHS: string[] = [
     '/health',
     `${basePath}/swagger`,
@@ -74,7 +75,7 @@ Promise.all([
     pathBDTOInstance.registerRoutes(app, ECLUDED_PATHS),
 ]).then(() => {
     app.listen(PORT, () => {
-        console.log("Listening servers")
+        console.log("Service Providers Service is running on port " + PORT)
     })
 }).catch(err => console.log(err))
 
