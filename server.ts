@@ -39,7 +39,7 @@ import TaxonomyDAO from './src/models/Taxonomy/TaxonomyDAO'
 const basePath = process.env.BASE_PATH || '/services'
 const app = express()
 const PORT = process.env.PORT
-console.log(basePath)
+
 const ECLUDED_PATHS: string[] = [
     '/health',
     `${basePath}/swagger`,

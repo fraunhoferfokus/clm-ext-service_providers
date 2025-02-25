@@ -45,7 +45,6 @@ interface iTaxonomyModel extends iBaseDatamodel {
 
 export default class TaxonomyModel extends BaseDatamodel implements iTaxonomyModel {
     constructor(payload: iTaxonomyModel) {
-        console.log({payload})
         super(payload);
         this.displayName = payload.displayName
         this.taxonomies = payload.taxonomies ?? {}
