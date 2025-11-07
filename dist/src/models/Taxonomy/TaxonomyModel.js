@@ -33,6 +33,7 @@ const clm_core_1 = require("clm-core");
 class TaxonomyModel extends clm_core_1.BaseDatamodel {
     constructor(payload) {
         var _a;
+        console.log({ payload });
         super(payload);
         this.displayName = payload.displayName;
         this.taxonomies = (_a = payload.taxonomies) !== null && _a !== void 0 ? _a : {};

@@ -53,19 +53,20 @@ class MgtmSPController extends BaseModelController<typeof SPDAO, SPModel, SPFDTO
         }
     }
 
-    findAllDocuments(): express.Handler {
-        return super.findAllDocuments(undefined, (docs) => {
-            return (req, res, next) => {
-                if (req.query.type) docs = docs.filter((doc) => doc.type === req.query.type)
-                let userPermissions = req.requestingUser?.permissions!
-                if (!req.requestingUser?.isSuperAdmin && req.requestingUser?.permissions) {
-                    docs = docs.filter((doc) => userPermissions['services'][doc._id] >= req.minimumRoleStrength!)
-                }
+    // findAllDocuments(): express.Handler {
+    //     return super.findAllDocuments(undefined, (docs) => {
+    //         return (req, res, next) => {
+    //             if (req.query.type) docs = docs.filter((doc) => doc.type === req.query.type)
+    //             let userPermissions = req.requestingUser?.permissions!
 
-                return res.json(docs)
-            }
-        })
-    }
+    //             if (!req.requestingUser?.isSuperAdmin && req.requestingUser?.permissions) {
+    //                 docs = docs.filter((doc) => userPermissions[doc._id] >= req.minimumRoleStrength!)
+    //             }
+
+    //             return res.json(docs)
+    //         }
+    //     })
+    // }
 
     deleteOneDocument() {
         return super.deleteOneDocument(undefined, () => {
@@ -83,7 +84,7 @@ class MgtmSPController extends BaseModelController<typeof SPDAO, SPModel, SPFDTO
 
 }
 const controller = new MgtmSPController(SPDAO, SPModel, SPFDTO)
-controller.router.use(AuthGuard.requireAdminUser())
+// controller.router.use(AuthGuard.requireAdminUser())
 
 /**
  * @openapi
@@ -183,7 +184,12 @@ controller.router.use(AuthGuard.requireAdminUser())
  *       401:
  *         description: Unauthorized
  */
+
+
+
+
 controller.router.get('/', AuthGuard.permissionChecker('service'))
+
 controller.router.post('/', AuthGuard.permissionChecker('service'), createSPValidation)
 
 /**

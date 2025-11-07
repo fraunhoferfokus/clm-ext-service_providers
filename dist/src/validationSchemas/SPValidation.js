@@ -102,6 +102,12 @@ const createSPSchema = {
     },
     metadataType: {
         optional: true
+    },
+    _id: {
+        optional: true,
+        isString: {
+            errorMessage: `Has to be a string`
+        }
     }
 };
 const updateSPSchema = {

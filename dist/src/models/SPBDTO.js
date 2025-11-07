@@ -66,19 +66,17 @@ const SPModel_1 = __importStar(require("./SPModel"));
 * @public
  */
 class SPBDTO extends clm_core_1.BaseBackendDTO {
-    createNewMetadaProvider(userId, username, password, baseUrl) {
+    createNewMetadaProvider(username, password, baseUrl, displayName, _id) {
         const metadataProvider = new SPModel_1.default({
+            _id,
             username,
             password,
             baseUrl,
             type: SPModel_1.ServiceType.METADATA,
             authType: SPModel_1.AuthType.BASIC,
-            displayName: 'hello'
+            displayName
         });
-        return Promise.all([
-            SPDAO_1.default.insert(metadataProvider),
-            clm_core_1.relationBDTOInstance.createRelationship(new clm_core_1.RelationModel({ fromId: userId, toId: metadataProvider._id, fromType: 'user', toType: 'service' }))
-        ]);
+        return SPDAO_1.default.insert(metadataProvider);
     }
 }
 exports.SPBDTO = SPBDTO;

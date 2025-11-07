@@ -39,26 +39,23 @@ import SPModel, { AuthType, ServiceType } from "./SPModel";
 * @public 
  */
 
-export class SPBDTO extends BaseBackendDTO<SPModel>{
+export class SPBDTO extends BaseBackendDTO<SPModel> {
 
 
 
-    createNewMetadaProvider(userId: string, username: string, password: string, baseUrl: string) {
+    createNewMetadaProvider(username: string, password: string, baseUrl: string, displayName: string, _id?: string) {
 
         const metadataProvider = new SPModel({
+            _id,
             username,
             password,
             baseUrl,
             type: ServiceType.METADATA,
             authType: AuthType.BASIC,
-            displayName: 'hello'
+            displayName
         })
 
-
-        return Promise.all([
-            SPDAO.insert(metadataProvider),
-            relationBDTOInstance.createRelationship(new RelationModel({ fromId: userId, toId: metadataProvider._id, fromType: 'user', toType: 'service' }))
-        ])
+        return SPDAO.insert(metadataProvider);
     }
 
 

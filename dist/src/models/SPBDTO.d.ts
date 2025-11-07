@@ -7,7 +7,7 @@ import SPModel from "./SPModel";
 * @public
  */
 export declare class SPBDTO extends BaseBackendDTO<SPModel> {
-    createNewMetadaProvider(userId: string, username: string, password: string, baseUrl: string): Promise<[SPModel, boolean]>;
+    createNewMetadaProvider(username: string, password: string, baseUrl: string, displayName: string, _id?: string): Promise<SPModel>;
 }
 /**
  * @public

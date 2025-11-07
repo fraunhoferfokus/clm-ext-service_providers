@@ -64,20 +64,18 @@ class MgtmSPController extends clm_core_1.BaseModelController {
             }
         });
     }
-    findAllDocuments() {
-        return super.findAllDocuments(undefined, (docs) => {
-            return (req, res, next) => {
-                var _a, _b, _c;
-                if (req.query.type)
-                    docs = docs.filter((doc) => doc.type === req.query.type);
-                let userPermissions = (_a = req.requestingUser) === null || _a === void 0 ? void 0 : _a.permissions;
-                if (!((_b = req.requestingUser) === null || _b === void 0 ? void 0 : _b.isSuperAdmin) && ((_c = req.requestingUser) === null || _c === void 0 ? void 0 : _c.permissions)) {
-                    docs = docs.filter((doc) => userPermissions['services'][doc._id] >= req.minimumRoleStrength);
-                }
-                return res.json(docs);
-            };
-        });
-    }
+    // findAllDocuments(): express.Handler {
+    //     return super.findAllDocuments(undefined, (docs) => {
+    //         return (req, res, next) => {
+    //             if (req.query.type) docs = docs.filter((doc) => doc.type === req.query.type)
+    //             let userPermissions = req.requestingUser?.permissions!
+    //             if (!req.requestingUser?.isSuperAdmin && req.requestingUser?.permissions) {
+    //                 docs = docs.filter((doc) => userPermissions[doc._id] >= req.minimumRoleStrength!)
+    //             }
+    //             return res.json(docs)
+    //         }
+    //     })
+    // }
     deleteOneDocument() {
         return super.deleteOneDocument(undefined, () => {
             return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
@@ -94,7 +92,7 @@ class MgtmSPController extends clm_core_1.BaseModelController {
     }
 }
 const controller = new MgtmSPController(SPDAO_1.default, SPModel_1.default, SPFDTO_1.default);
-controller.router.use(clm_core_1.AuthGuard.requireAdminUser());
+// controller.router.use(AuthGuard.requireAdminUser())
 /**
  * @openapi
  * components:

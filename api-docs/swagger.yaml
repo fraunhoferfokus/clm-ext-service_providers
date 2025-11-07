@@ -1,33 +1,31 @@
----
 openapi: 3.0.0
 info:
   title: CLM-EXT-Services API
   version: 1.0.0
   description: API endpoints the clm-ext-services module offers
 servers:
-- url: "{scheme}://{hostname}:{port}{path}"
-  description: The production API server
-  variables:
-    hostname:
-      default: localhost
-    port:
-      default: '5004'
-    path:
-      default: ''
-    scheme:
-      default: http
+  - url: '{scheme}://{hostname}:{port}{path}'
+    description: The production API server
+    variables:
+      hostname:
+        default: localhost
+      port:
+        default: '80'
+      path:
+        default: ''
+      scheme:
+        default: http
 security:
-- bearerAuth: []
+  - bearerAuth: []
 paths:
-  "/services/mgmt/services":
+  /services/mgmt/services:
     get:
       tags:
-      - mgmt-services
+        - mgmt-services
       summary: 'Retrieve all services the user has access to [Minimum Role: "Learner"]'
-      description: Retrieve all services the user has access to through the group
-        enrollments.
+      description: Retrieve all services the user has access to through the group enrollments.
       parameters:
-      - "$ref": "#/components/parameters/accessToken"
+        - $ref: '#/components/parameters/accessToken'
       responses:
         '200':
           description: Successfully retrieved all services
@@ -37,62 +35,60 @@ paths:
                 type: array
                 items:
                   allOf:
-                  - "$ref": "#/components/schemas/Service"
-                  - type: object
-                    properties:
-                      _id:
-                        type: string
-                        description: The id of the service.
-                        example: 5f7b1a7b9b0b8a0017a7b1a7
+                    - $ref: '#/components/schemas/Service'
+                    - type: object
+                      properties:
+                        _id:
+                          type: string
+                          description: The id of the service.
+                          example: 5f7b1a7b9b0b8a0017a7b1a7
         '400':
           description: Bad request
         '401':
           description: Unauthorized
     post:
       tags:
-      - mgmt-services
+        - mgmt-services
       summary: 'Create a service [Minimum Role: "Admin"]'
       description: Create a service
       parameters:
-      - "$ref": "#/components/parameters/accessToken"
+        - $ref: '#/components/parameters/accessToken'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Service"
+              $ref: '#/components/schemas/Service'
       responses:
         '200':
           description: Successfully created learning object
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Service"
+                $ref: '#/components/schemas/Service'
         '400':
           description: Bad request - Invalid input or validation error
         '401':
           description: Unauthorized
-  "/services/mgmt/services/relations":
+  /services/mgmt/services/relations:
     get:
       tags:
-      - mgmt-services
-      summary: 'Get the relations from the services the user has access to [Minimum
-        Role : ''Learner'']'
-      description: Retrieve relations between various services that the authenticated
-        user has permissions to view.
+        - mgmt-services
+      summary: 'Get the relations from the services the user has access to [Minimum Role : ''Learner'']'
+      description: Retrieve relations between various services that the authenticated user has permissions to view.
       parameters:
-      - "$ref": "#/components/parameters/accessToken"
+        - $ref: '#/components/parameters/accessToken'
       responses:
         '200':
           description: A list of relations between services.
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/relation"
-  "/services/mgmt/services/{id}":
+                $ref: '#/components/schemas/relation'
+  /services/mgmt/services/{id}:
     put:
       tags:
-      - mgmt-services
+        - mgmt-services
       summary: 'Update an existing service [Minimum Role: "Instructor"]'
       description: Modify an existing service's attributes
       requestBody:
@@ -100,29 +96,29 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Service"
+              $ref: '#/components/schemas/Service'
       parameters:
-      - "$ref": "#/components/parameters/accessToken"
-      - in: path
-        name: id
-        description: The id of the service
-        required: true
-        schema:
-          type: string
+        - $ref: '#/components/parameters/accessToken'
+        - in: path
+          name: id
+          description: The id of the service
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Successfully updated service
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Service"
+                $ref: '#/components/schemas/Service'
         '400':
           description: Bad request - Invalid input or validation error
         '401':
           description: Unauthorized
     patch:
       tags:
-      - mgmt-services
+        - mgmt-services
       summary: 'Update an existing service [Minimum Role: "Instructor"]'
       description: Modify an existing service's attribute
       requestBody:
@@ -130,37 +126,37 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Service"
+              $ref: '#/components/schemas/Service'
       parameters:
-      - in: path
-        name: id
-        description: The id of the service
-        required: true
-        schema:
-          type: string
+        - in: path
+          name: id
+          description: The id of the service
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Successfully partially updated service
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/Service"
+                $ref: '#/components/schemas/Service'
         '400':
           description: Bad request - Invalid input or validation error
         '401':
           description: Unauthorized
     delete:
       tags:
-      - mgmt-services
+        - mgmt-services
       summary: 'Deletes an existing service [Minimum Role: "Instructor"]'
       description: Delete an existing service
       parameters:
-      - in: path
-        name: id
-        description: The id of the service
-        required: true
-        schema:
-          type: string
+        - in: path
+          name: id
+          description: The id of the service
+          required: true
+          schema:
+            type: string
       responses:
         '204':
           description: Successfully deleted service
@@ -168,48 +164,46 @@ paths:
           description: Bad request
         '401':
           description: Unauthorized
-  "/services/mgmt/groups/{id}/services/{serviceId}":
+  /services/mgmt/groups/{id}/services/{serviceId}:
     post:
       tags:
-      - mgmt-groups
-      - mgmt-services
+        - mgmt-groups
+        - mgmt-services
       summary: 'Enroll a group to a service [Minimum role: ''Instructor'']'
-      description: Enrolls a specific group to a particular service using the respective
-        identifiers.
+      description: Enrolls a specific group to a particular service using the respective identifiers.
       parameters:
-      - "$ref": "#/components/parameters/accessToken"
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: serviceId
-        in: path
-        required: true
-        schema:
-          type: string
+        - $ref: '#/components/parameters/accessToken'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Successfully enrolled the group to the service.
     delete:
       tags:
-      - mgmt-groups
-      - mgmt-services
+        - mgmt-groups
+        - mgmt-services
       summary: 'Delete Enrollment [Minimum role: ''Instructor'']'
-      description: Removes a group's enrollment to a specific service, identified
-        by its serviceId.
+      description: Removes a group's enrollment to a specific service, identified by its serviceId.
       parameters:
-      - "$ref": "#/components/parameters/accessToken"
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-      - name: serviceId
-        in: path
-        required: true
-        schema:
-          type: string
+        - $ref: '#/components/parameters/accessToken'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Successfully deleted the group's enrollment to the service.
@@ -236,8 +230,7 @@ components:
           default: toNodeId
         order:
           type: number
-          description: The order of the relation. Used for example ordering the enrollments
-            of a group/user
+          description: The order of the relation. Used for example ordering the enrollments of a group/user
           default: 0
     Service:
       type: object
@@ -261,15 +254,15 @@ components:
         authType:
           type: string
           enum:
-          - BASIC
-          - BEARER
-          - OTHER
+            - BASIC
+            - BEARER
+            - OTHER
           description: The auth-type of the service.
         type:
           type: string
           enum:
-          - SERVICE_TYPE_1
-          - SERVICE_TYPE_2
+            - SERVICE_TYPE_1
+            - SERVICE_TYPE_2
           description: The type of the service.
         displayName:
           type: string
@@ -278,8 +271,8 @@ components:
         metadataType:
           type: string
           enum:
-          - LRMI
-          - LOM
+            - LRMI
+            - LOM
           description: The metadata-type of the service.
           nullable: true
   parameters:

@@ -63,6 +63,6 @@ Promise.all([
     clm_core_1.pathBDTOInstance.registerRoutes(app, ECLUDED_PATHS),
 ]).then(() => {
     app.listen(PORT, () => {
-        console.log("Service Providers Service is running on port " + PORT);
+        console.log("Listening servers");
     });
 }).catch(err => console.log(err));

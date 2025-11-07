@@ -5,7 +5,6 @@ import SPModel from '../models/SPModel';
 import SPFDTO from '../models/SPFDTO';
 declare class MgtmSPController extends BaseModelController<typeof SPDAO, SPModel, SPFDTO> {
     getSPRelations(): express.Handler;
-    findAllDocuments(): express.Handler;
     deleteOneDocument(): express.Handler;
 }
 declare const controller: MgtmSPController;
